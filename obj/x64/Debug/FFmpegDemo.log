@@ -1,0 +1,45 @@
+﻿  正在验证源
+  正在将源远程复制到“192.168.1.5”
+  正在验证体系结构
+  正在验证体系结构
+  正在启动远程生成
+  正在编译源:
+  main.cpp
+D:\work\demo\FFmpegDemo\include\libavutil\common.h(161,31): warning : conversion to ‘uint8_t {aka unsigned char}’ from ‘int’ may alter its value [-Wconversion]
+D:\work\demo\FFmpegDemo\include\libavutil\common.h(161,31): warning :      if (a&(~0xFF)) return (~a)>>31;
+D:\work\demo\FFmpegDemo\include\libavutil\common.h(161,31): warning :                            ~~~~^~~~
+D:\work\demo\FFmpegDemo\include\libavutil\common.h(162,27): warning : conversion to ‘uint8_t {aka unsigned char}’ from ‘int’ may alter its value [-Wconversion]
+D:\work\demo\FFmpegDemo\include\libavutil\common.h(162,27): warning :      else           return a;
+D:\work\demo\FFmpegDemo\include\libavutil\common.h(162,27): warning :                            ^
+D:\work\demo\FFmpegDemo\include\libavutil\common.h(172,43): warning : conversion to ‘int8_t {aka signed char}’ from ‘int’ may alter its value [-Wconversion]
+D:\work\demo\FFmpegDemo\include\libavutil\common.h(172,43): warning :      if ((a+0x80U) & ~0xFF) return (a>>31) ^ 0x7F;
+D:\work\demo\FFmpegDemo\include\libavutil\common.h(172,43): warning :                                    ~~~~~~~~^~~~~~
+D:\work\demo\FFmpegDemo\include\libavutil\common.h(173,34): warning : conversion to ‘int8_t {aka signed char}’ from ‘int’ may alter its value [-Wconversion]
+D:\work\demo\FFmpegDemo\include\libavutil\common.h(173,34): warning :      else                  return a;
+D:\work\demo\FFmpegDemo\include\libavutil\common.h(173,34): warning :                                   ^
+D:\work\demo\FFmpegDemo\include\libavutil\common.h(183,33): warning : conversion to ‘uint16_t {aka short unsigned int}’ from ‘int’ may alter its value [-Wconversion]
+D:\work\demo\FFmpegDemo\include\libavutil\common.h(183,33): warning :      if (a&(~0xFFFF)) return (~a)>>31;
+D:\work\demo\FFmpegDemo\include\libavutil\common.h(183,33): warning :                              ~~~~^~~~
+D:\work\demo\FFmpegDemo\include\libavutil\common.h(184,29): warning : conversion to ‘uint16_t {aka short unsigned int}’ from ‘int’ may alter its value [-Wconversion]
+D:\work\demo\FFmpegDemo\include\libavutil\common.h(184,29): warning :      else             return a;
+D:\work\demo\FFmpegDemo\include\libavutil\common.h(184,29): warning :                              ^
+D:\work\demo\FFmpegDemo\include\libavutil\common.h(194,47): warning : conversion to ‘int16_t {aka short int}’ from ‘int’ may alter its value [-Wconversion]
+D:\work\demo\FFmpegDemo\include\libavutil\common.h(194,47): warning :      if ((a+0x8000U) & ~0xFFFF) return (a>>31) ^ 0x7FFF;
+D:\work\demo\FFmpegDemo\include\libavutil\common.h(194,47): warning :                                        ~~~~~~~~^~~~~~~~
+D:\work\demo\FFmpegDemo\include\libavutil\common.h(195,38): warning : conversion to ‘int16_t {aka short int}’ from ‘int’ may alter its value [-Wconversion]
+D:\work\demo\FFmpegDemo\include\libavutil\common.h(195,38): warning :      else                      return a;
+D:\work\demo\FFmpegDemo\include\libavutil\common.h(195,38): warning :                                       ^
+D:\work\demo\FFmpegDemo\include\libavutil\bswap.h(60,15): warning : conversion to ‘uint16_t {aka short unsigned int}’ from ‘int’ may alter its value [-Wconversion]
+D:\work\demo\FFmpegDemo\include\libavutil\bswap.h(60,15): warning :      x= (x>>8) | (x<<8);
+D:\work\demo\FFmpegDemo\include\libavutil\bswap.h(60,15): warning :         ~~~~~~~^~~~~~~~
+D:\work\demo\FFmpegDemo\include\libavutil\bswap.h(75,34): warning : conversion to ‘uint32_t {aka unsigned int}’ from ‘uint64_t {aka long unsigned int}’ may alter its value [-Wconversion]
+D:\work\demo\FFmpegDemo\include\libavutil\bswap.h(75,34): warning :      return (uint64_t)av_bswap32(x) << 32 | av_bswap32(x >> 32);
+D:\work\demo\FFmpegDemo\include\libavutil\bswap.h(75,34): warning :                                   ^
+D:\work\demo\FFmpegDemo\include\libavutil\bswap.h(75,57): warning : conversion to ‘uint32_t {aka unsigned int}’ from ‘uint64_t {aka long unsigned int}’ may alter its value [-Wconversion]
+D:\work\demo\FFmpegDemo\include\libavutil\bswap.h(75,57): warning :      return (uint64_t)av_bswap32(x) << 32 | av_bswap32(x >> 32);
+D:\work\demo\FFmpegDemo\include\libavutil\bswap.h(75,57): warning :                                                        ~~^~~~~
+D:\work\demo\FFmpegDemo\include\libavutil\timestamp.h(68,90): warning : conversion to ‘double’ from ‘int64_t {aka long int}’ may alter its value [-Wconversion]
+D:\work\demo\FFmpegDemo\include\libavutil\timestamp.h(68,90): warning :      else                      snprintf(buf, AV_TS_MAX_STRING_SIZE, "%.6g", av_q2d(*tb) * ts);
+D:\work\demo\FFmpegDemo\include\libavutil\timestamp.h(68,90): warning :                                                                                           ^~
+  正在链接对象
+  FFmpegDemo.vcxproj -> D:\work\demo\FFmpegDemo\bin\x64\Debug\FFmpegDemo.out
