@@ -41,19 +41,45 @@ void doTransCode(IOFiles* files)
 	for (unsigned int i = 0; i < ifmt_ctx->nb_streams; i++)
 	{
 		AVStream* inStream = ifmt_ctx->streams[i];
-		AVStream* outStream = avformat_new_stream(ofmt_ctx, inStream->codec->codec);
+		AVCodecParameters* avCodecParameters = inStream->codecpar;
+		AVCodecContext* inAVCodecContext = avcodec_alloc_context3(NULL);
+		if (!inAVCodecContext) {
+			printf("alloc avcodec fail.");
+			goto end;
+		}
+		ret = avcodec_parameters_to_context(inAVCodecContext, avCodecParameters);
+		if (ret < 0) {
+			printf("avcodec_parameters_to_context fail.");
+			goto end;
+		}
+
+		AVStream* outStream = avformat_new_stream(ofmt_ctx, inAVCodecContext->codec);
 		if (!outStream)
 		{
 			printf("Error: Could not allocate output stream.\n");
 			goto end;
 		}
 
-		ret = avcodec_copy_context(outStream->codec, inStream->codec);
-		outStream->codec->codec_tag = 0;
+		AVCodecContext* outAVCodecContext = avcodec_alloc_context3(NULL);
+		if (!outAVCodecContext) {
+			printf("alloc out avcodec fail.");
+			goto end;
+		}
+		ret = avcodec_parameters_to_context(outAVCodecContext, avCodecParameters);
+		if (ret < 0) {
+			printf("out avcodec_parameters_to_context fail.");
+			goto end;
+		}
+
+		ret = avcodec_copy_context(outAVCodecContext, inAVCodecContext);
+		outAVCodecContext->codec_tag = 0;
 		if (ofmt_ctx->oformat->flags & AVFMT_GLOBALHEADER)
 		{
-			outStream->codec->flags |= AV_CODEC_FLAG_GLOBAL_HEADER;
+			outAVCodecContext->flags |= AV_CODEC_FLAG_GLOBAL_HEADER;
 		}
+
+		avcodec_free_context(&inAVCodecContext);
+		avcodec_free_context(&outAVCodecContext);
 	}
 
 	av_dump_format(ofmt_ctx, 0, files->outputName, 1);
