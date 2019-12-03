@@ -75,10 +75,11 @@
   <ImportGroup Label="PropertySheets" />
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>D:\KiloViewWork\demo\FFmpegDemo\include;$(IncludePath)</IncludePath>
+    <IncludePath>D:\KiloViewWork\kiloview\FFmpegDemo\include;$(IncludePath)</IncludePath>
     <AdditionalSourcesToCopyMapping>$(AdditionalSourcesToCopyMapping)</AdditionalSourcesToCopyMapping>
     <LibraryPath>$(LibraryPath)</LibraryPath>
-    <SourcePath>D:\KiloViewWork\demo\FFmpegDemo\include;$(SourcePath)</SourcePath>
+    <SourcePath>D:\KiloViewWork\kiloview\FFmpegDemo\include;$(SourcePath)</SourcePath>
+    <SourcesToCopyRemotelyOverride>@(SourcesToCopyRemotely);@(DataFilesToCopyRemotely);</SourcesToCopyRemotelyOverride>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86'">
     <IncludePath>G:\KiloViewWork\demo\FFmpegDemo\include;$(IncludePath)</IncludePath>
@@ -87,8 +88,14 @@
   </PropertyGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Manager.cpp" />
+    <ClCompile Include="Test.cpp" />
+    <ClCompile Include="VideoTransCode.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Manager.h" />
+    <ClInclude Include="Test.h" />
+    <ClInclude Include="VideoTransCode.h" />
   </ItemGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Link>
