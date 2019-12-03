@@ -78,14 +78,14 @@ void doTransCode(IOFiles* files)
 			outAVCodecContext->flags |= AV_CODEC_FLAG_GLOBAL_HEADER;
 		}
 
-		AVCodecParameters* outAVCodecParameters = avcodec_parameters_alloc();
-		ret = avcodec_parameters_from_context(outAVCodecParameters, outAVCodecContext);
+		//AVCodecParameters* outAVCodecParameters = avcodec_parameters_alloc();
+		ret = avcodec_parameters_from_context(outStream->codecpar, outAVCodecContext);
 
 		if (ret < 0) {
 			printf("avcodec_parameters_from_context fail.");
 			goto end;
 		}
-		outStream->codecpar = outAVCodecParameters;
+		//outStream->codecpar = outAVCodecParameters;
 
 
 		avcodec_free_context(&inAVCodecContext);
