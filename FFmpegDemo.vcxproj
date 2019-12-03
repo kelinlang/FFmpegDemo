@@ -75,9 +75,15 @@
   <ImportGroup Label="PropertySheets" />
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>D:\work\demo\FFmpegDemo\include;$(IncludePath)</IncludePath>
-    <AdditionalSourcesToCopyMapping>/home/kelinlang/ffmpeg/shared/include;$(AdditionalSourcesToCopyMapping)</AdditionalSourcesToCopyMapping>
+    <IncludePath>D:\KiloViewWork\demo\FFmpegDemo\include;$(IncludePath)</IncludePath>
+    <AdditionalSourcesToCopyMapping>$(AdditionalSourcesToCopyMapping)</AdditionalSourcesToCopyMapping>
     <LibraryPath>$(LibraryPath)</LibraryPath>
+    <SourcePath>D:\KiloViewWork\demo\FFmpegDemo\include;$(SourcePath)</SourcePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86'">
+    <IncludePath>G:\KiloViewWork\demo\FFmpegDemo\include;$(IncludePath)</IncludePath>
+    <SourcePath>G:\KiloViewWork\demo\FFmpegDemo\include;$(SourcePath)</SourcePath>
+    <AdditionalSourcesToCopyMapping>$(ProjectDir)/include</AdditionalSourcesToCopyMapping>
   </PropertyGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
@@ -86,7 +92,7 @@
   </ItemGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Link>
-      <AdditionalLibraryDirectories>/home/kelinlang/ffmpeg/shared/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>/home/kelinlang/workspace/install/ffmpeg/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <LibraryDependencies>avcodec;avdevice;avfilter;avformat;avutil;swresample;swscale;pthread;pthread_nonshared;%(LibraryDependencies)</LibraryDependencies>
       <AdditionalOptions>"-Wl,-rpath=/home/kelinlang/ffmpeg/static/lib" %(AdditionalOptions)</AdditionalOptions>
       <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
@@ -94,6 +100,16 @@
     <ClCompile>
       <CppLanguageStandard>c++17</CppLanguageStandard>
       <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86'">
+    <Link>
+      <AdditionalLibraryDirectories>/home/kelinlang/workspace/install/ffmpeg/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <LibraryDependencies>avcodec;avdevice;avfilter;avformat;avutil;swresample;swscale;%(LibraryDependencies)</LibraryDependencies>
+    </Link>
+    <ClCompile>
+      <CppLanguageStandard>c++17</CppLanguageStandard>
+      <AdditionalIncludeDirectories>G:\KiloViewWork\demo\FFmpegDemo\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
