@@ -89,10 +89,17 @@ void doTransCode(IOFiles* files)
 		}
 		//outStream->codecpar = outAVCodecParameters;
 
+		
+
 
 		avcodec_free_context(&inAVCodecContext);
 		avcodec_free_context(&outAVCodecContext);
 	}
+
+	AVProgram* program = av_new_program(ofmt_ctx, 1);
+	av_dict_set(&program->metadata, "title", "CCTV1", 0);
+	av_program_add_stream_index(ofmt_ctx, 1, 0);
+	av_program_add_stream_index(ofmt_ctx, 1, 1);
 
 	av_dump_format(ofmt_ctx, 0, files->outputName, 1);
 

@@ -18,7 +18,7 @@ int main()
 	IOFiles file;
 	file.inputName = "/home/kelinlang/workspace/testFiles/E1.mp4";
 	file.outputName = "/home/kelinlang/workspace/testFiles/E1.ts";
-	//file.outputName = "udp://192.168.2.34";
+	//file.outputName = "udp://192.168.2.34:1234?pkt_size=1316";
 
 	doTransCode(&file);
 
