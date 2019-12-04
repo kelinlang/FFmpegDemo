@@ -1,14 +1,16 @@
 #include "VideoTransCode.h"
 
-
+static char* outFormat = "mpegts";
 
 void doTransCode(IOFiles* files)
 {
+
+	av_log_set_level(AV_LOG_DEBUG);
 //#if CONFIG_AVDEVICE
-//	avdevice_register_all();
+	avdevice_register_all();
 //#endif
-	//avformat_network_init();
-	av_register_all();
+	avformat_network_init();
+	//av_register_all();
 
 	AVOutputFormat* ofmt = NULL;
 	AVFormatContext* ifmt_ctx = NULL, * ofmt_ctx = NULL;
@@ -30,7 +32,7 @@ void doTransCode(IOFiles* files)
 	av_dump_format(ifmt_ctx, 0, files->inputName, 0);
 
 	//按照文件名获取输出文件的句柄
-	avformat_alloc_output_context2(&ofmt_ctx, NULL, NULL, files->outputName);
+	avformat_alloc_output_context2(&ofmt_ctx, NULL, outFormat, files->outputName);
 	if (!ofmt_ctx)
 	{
 		printf("Error: Could not create output context.\n");
@@ -111,13 +113,25 @@ void doTransCode(IOFiles* files)
 		goto end;
 	}
 
+	int readTimes = 0;
 	while (1)
 	{
 		AVStream* in_stream, * out_stream;
 
 		ret = av_read_frame(ifmt_ctx, &pkt);
-		if (ret < 0)
+		//av_log(NULL, AV_LOG_ERROR,"av_read_frame ret : %d\n",readTimes++);
+		if (ret == AVERROR(EAGAIN)) {
+			av_usleep(10000);
+			continue;
+		}
+		if (ret < 0) {
+			printf("av_read_frame ret : %d\n",ret);
+			av_log(NULL, AV_LOG_ERROR,
+				"av_read_frame ret : %d\n",
+				ret);
 			break;
+		}
+	
 
 		in_stream = ifmt_ctx->streams[pkt.stream_index];
 		out_stream = ofmt_ctx->streams[pkt.stream_index];
