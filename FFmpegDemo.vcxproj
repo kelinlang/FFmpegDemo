@@ -75,10 +75,10 @@
   <ImportGroup Label="PropertySheets" />
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>D:\KiloViewWork\kiloview\FFmpegDemo\include;$(IncludePath)</IncludePath>
+    <IncludePath>D:\KiloViewWork\kiloview1\FFmpegDemo\include;$(IncludePath)</IncludePath>
     <AdditionalSourcesToCopyMapping>$(AdditionalSourcesToCopyMapping)</AdditionalSourcesToCopyMapping>
     <LibraryPath>$(LibraryPath)</LibraryPath>
-    <SourcePath>D:\KiloViewWork\kiloview\FFmpegDemo\include;$(SourcePath)</SourcePath>
+    <SourcePath>D:\KiloViewWork\kiloview1\FFmpegDemo\include;$(SourcePath)</SourcePath>
     <SourcesToCopyRemotelyOverride>@(SourcesToCopyRemotely);@(DataFilesToCopyRemotely);</SourcesToCopyRemotelyOverride>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86'">
