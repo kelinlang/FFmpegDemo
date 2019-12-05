@@ -4,6 +4,7 @@
   正在验证体系结构
   正在启动远程生成
   正在编译源:
+  ffmpeg.c
   main.cpp
 D:\KiloViewWork\kiloview1\FFmpegDemo\include\libavutil\common.h(161,31): warning : conversion to ‘uint8_t {aka unsigned char}’ from ‘int’ may alter its value [-Wconversion]
 D:\KiloViewWork\kiloview1\FFmpegDemo\include\libavutil\common.h(161,31): warning :      if (a&(~0xFF)) return (~a)>>31;

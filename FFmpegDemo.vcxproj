@@ -87,12 +87,14 @@
     <AdditionalSourcesToCopyMapping>$(ProjectDir)/include</AdditionalSourcesToCopyMapping>
   </PropertyGroup>
   <ItemGroup>
+    <ClCompile Include="ffmpeg.c" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Manager.cpp" />
     <ClCompile Include="Test.cpp" />
     <ClCompile Include="VideoTransCode.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ffmpeg.h" />
     <ClInclude Include="Manager.h" />
     <ClInclude Include="Test.h" />
     <ClInclude Include="VideoTransCode.h" />
