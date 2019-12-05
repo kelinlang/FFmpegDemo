@@ -1,7 +1,8 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\include"
   ],
-  "SelectedNode": "\\main.cpp",
+  "SelectedNode": "\\cmdutils.h",
   "PreviewInSolutionExplorer": false
 }
