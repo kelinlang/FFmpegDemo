@@ -70,8 +70,83 @@ static int openOutputFile(RemuxingContext* remuxingContext, OutputFile* outputfi
 		return ret;
 	}
 	AVOutputFormat* ofmt = NULL;
+	outputfile->formatContext = fc;
 	outputfile->ofmt = fc->oformat;
 	strcpy(outputfile->fileName, fileName);
+
+	int curStNum = 0;
+	for (int i = 0; i < remuxingContext->nbInputFiles;i++) {
+		InputFile* inputFile = remuxingContext->inputFiles[i];
+
+		AVProgram* program = av_new_program(fc, i+1);
+		av_dict_set(&program->metadata, "title", inputFile->fileName, 0);
+
+		for (int j = 0; j < inputFile->numStream; j++) {
+			av_program_add_stream_index(fc, i + 1, curStNum++);//ÉèÖÃÊä³öÁ÷id
+
+			AVStream* inStream = inputFile->formatContext->streams[i];
+
+			AVCodecParameters* avCodecParameters = inStream->codecpar;
+			AVCodecContext* inAVCodecContext = avcodec_alloc_context3(NULL);
+			if (!inAVCodecContext) {
+				printf("alloc avcodec fail.");
+				return ret;
+			}
+			ret = avcodec_parameters_to_context(inAVCodecContext, avCodecParameters);
+			if (ret < 0) {
+				printf("avcodec_parameters_to_context fail.");
+				return ret;
+			}
+
+			AVStream* outStream = avformat_new_stream(fc, inAVCodecContext->codec);
+			if (!outStream)
+			{
+				printf("Error: Could not allocate output stream.\n");
+				return ret;
+			}
+
+			AVCodecContext* outAVCodecContext = avcodec_alloc_context3(NULL);
+			if (!outAVCodecContext) {
+				printf("alloc out avcodec fail.");
+				return ret;
+			}
+			ret = avcodec_parameters_to_context(outAVCodecContext, avCodecParameters);
+			if (ret < 0) {
+				printf("out avcodec_parameters_to_context fail.");
+				return ret;
+			}
+
+			ret = avcodec_copy_context(outAVCodecContext, inAVCodecContext);
+			outAVCodecContext->codec_tag = 0;
+			if (fc->oformat->flags & AVFMT_GLOBALHEADER)
+			{
+				outAVCodecContext->flags |= AV_CODEC_FLAG_GLOBAL_HEADER;
+			}
+
+			ret = avcodec_parameters_from_context(outStream->codecpar, outAVCodecContext);
+			if (ret < 0) {
+				printf("avcodec_parameters_from_context fail.");
+				return ret;
+			}
+
+			avcodec_free_context(&inAVCodecContext);
+			avcodec_free_context(&outAVCodecContext);
+		}
+
+	}
+
+	av_dump_format(fc, 0, fileName, 1);
+
+	if (!(ofmt->flags & AVFMT_NOFILE))
+	{
+		ret = avio_open(&fc->pb, fileName, AVIO_FLAG_WRITE);
+		if (ret < 0)
+		{
+			printf("Error: Could not open output file.\n");
+			return ret;
+		}
+	}
+
 	return ret;
 }
 
