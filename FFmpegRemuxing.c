@@ -358,6 +358,12 @@ void testRemuxing(int numInputFile,char** inputFileName, char* outputFileName)
 	OutputFile* outputFile = allocOutputFile();
 	openOutputFile(pRemuxingContext, outputFile, outputFileName, "mpegts");
 
+
+	int needRead[numInputFile];
+	for (int i = 0; i < numInputFile;i++) {
+		needRead[i] = 1;
+	}
+
 	int ret = 0;
 	ret = avformat_write_header(outputFile->formatContext, NULL);
 	if (ret < 0)
@@ -366,8 +372,9 @@ void testRemuxing(int numInputFile,char** inputFileName, char* outputFileName)
 		goto end;
 	}
 
+	
 	AVPacket pkt;
-	int loop = 1;
+	int loop = numInputFile;
 	while (loop)
 	{
 		//for (int i = 0; i < numInputFile;i++) {
@@ -406,6 +413,9 @@ void testRemuxing(int numInputFile,char** inputFileName, char* outputFileName)
 		int curStId = 0;
 		OutputFile* outputFile = pRemuxingContext->outputFile;
 		for (int i = 0; i < numInputFile;i++) {
+			if (needRead[i] == 0) {
+				continue;
+			}
 			InputFile* inputFile = pRemuxingContext->inputFiles[i];
 
 			ret = av_read_frame(inputFile->formatContext, &pkt);
@@ -416,7 +426,8 @@ void testRemuxing(int numInputFile,char** inputFileName, char* outputFileName)
 			if (ret < 0) {
 				printf("    av_read_frame ret : %d\n", -ret);
 				//av_log(NULL, AV_LOG_ERROR,"av_read_frame ret : %d\n",-ret);
-				loop = 0;
+				loop--;
+				needRead[i] = 0;
 				break;
 			}
 			in_stream = inputFile->formatContext->streams[pkt.stream_index];
