@@ -80,12 +80,12 @@ D:\KiloViewWork\kiloview1\FFmpegDemo\FFmpegRemuxing.c(75,24): warning :         
 D:\KiloViewWork\kiloview1\FFmpegDemo\include\libavformat\avformat.h(2499,6): message : expected ‘AVFormatContext ** {aka struct AVFormatContext **}’ but argument is of type ‘AVFormatContext * {aka struct AVFormatContext *}’
 D:\KiloViewWork\kiloview1\FFmpegDemo\include\libavformat\avformat.h(2499,6): message :  void avformat_close_input(AVFormatContext **s);
 D:\KiloViewWork\kiloview1\FFmpegDemo\include\libavformat\avformat.h(2499,6): message :       ^~~~~~~~~~~~~~~~~~~~
-D:\KiloViewWork\kiloview1\FFmpegDemo\FFmpegRemuxing.c(120,49): warning : conversion to ‘unsigned int’ from ‘int’ may change the sign of the result [-Wsign-conversion]
-D:\KiloViewWork\kiloview1\FFmpegDemo\FFmpegRemuxing.c(120,49): warning :     av_program_add_stream_index(fc, program->id, curStId);//���������id
-D:\KiloViewWork\kiloview1\FFmpegDemo\FFmpegRemuxing.c(120,49): warning :                                                  ^~~~~~~
-D:\KiloViewWork\kiloview1\FFmpegDemo\FFmpegRemuxing.c(205,2): warning : implicit declaration of function ‘avdevice_register_all’; did you mean ‘avcodec_register_all’? [-Wimplicit-function-declaration]
-D:\KiloViewWork\kiloview1\FFmpegDemo\FFmpegRemuxing.c(205,2): warning :   avdevice_register_all();
-D:\KiloViewWork\kiloview1\FFmpegDemo\FFmpegRemuxing.c(205,2): warning :   ^~~~~~~~~~~~~~~~~~~~~
-D:\KiloViewWork\kiloview1\FFmpegDemo\FFmpegRemuxing.c(205,2): warning :   avcodec_register_all
+D:\KiloViewWork\kiloview1\FFmpegDemo\FFmpegRemuxing.c(181,49): warning : conversion to ‘unsigned int’ from ‘int’ may change the sign of the result [-Wsign-conversion]
+D:\KiloViewWork\kiloview1\FFmpegDemo\FFmpegRemuxing.c(181,49): warning :     av_program_add_stream_index(fc, program->id, curStId++);//���������id
+D:\KiloViewWork\kiloview1\FFmpegDemo\FFmpegRemuxing.c(181,49): warning :                                                  ^~~~~~~
+D:\KiloViewWork\kiloview1\FFmpegDemo\FFmpegRemuxing.c(215,2): warning : implicit declaration of function ‘avdevice_register_all’; did you mean ‘avcodec_register_all’? [-Wimplicit-function-declaration]
+D:\KiloViewWork\kiloview1\FFmpegDemo\FFmpegRemuxing.c(215,2): warning :   avdevice_register_all();
+D:\KiloViewWork\kiloview1\FFmpegDemo\FFmpegRemuxing.c(215,2): warning :   ^~~~~~~~~~~~~~~~~~~~~
+D:\KiloViewWork\kiloview1\FFmpegDemo\FFmpegRemuxing.c(215,2): warning :   avcodec_register_all
   正在链接对象
   FFmpegDemo.vcxproj -> D:\KiloViewWork\kiloview1\FFmpegDemo\bin\x64\Debug\FFmpegDemo.out

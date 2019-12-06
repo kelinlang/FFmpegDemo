@@ -112,12 +112,10 @@ static int openOutputFile(RemuxingContext* remuxingContext, OutputFile* outputfi
 	for (int i = 0; i < remuxingContext->nbInputFiles;i++) {
 		InputFile* inputFile = remuxingContext->inputFiles[i];
 
-		AVProgram* program = av_new_program(fc, i+1);
-		//av_dict_set(&program->metadata, "title", inputFile->fileName, 0);
-		av_dict_set(&program->metadata, "title", "tv", 0);
+		
 
 		for (int j = 0; j < inputFile->numStream; j++) {
-			av_program_add_stream_index(fc, program->id, curStId);//设置输出流id
+			//av_program_add_stream_index(fc, program->id, curStId);//设置输出流id
 
 			AVStream* inStream = inputFile->formatContext->streams[j];
 
@@ -170,6 +168,18 @@ static int openOutputFile(RemuxingContext* remuxingContext, OutputFile* outputfi
 			curStId++;
 		}
 
+		
+	}
+
+	curStId = 0;
+	for (int i = 0; i < remuxingContext->nbInputFiles;i++) {//节目信息放在创建流之后，还没弄清楚缘由
+		AVProgram* program = av_new_program(fc, i + 1);
+		//av_dict_set(&program->metadata, "title", inputFile->fileName, 0);
+		av_dict_set(&program->metadata, "title", "tv", 0);
+		InputFile* inputFile = remuxingContext->inputFiles[i];
+		for (int j = 0; j < inputFile->numStream; j++) {
+			av_program_add_stream_index(fc, program->id, curStId++);//设置输出流id
+		}
 	}
 
 	av_dump_format(fc, 0, fileName, 1);
