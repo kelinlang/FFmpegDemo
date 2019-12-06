@@ -71,12 +71,6 @@ D:\KiloViewWork\kiloview1\FFmpegDemo\FFmpegRemuxing.c(14,52): warning :         
 D:\KiloViewWork\kiloview1\FFmpegDemo\FFmpegRemuxing.c(19,38): warning : conversion to ‘size_t {aka long unsigned int}’ from ‘int’ may change the sign of the result [-Wsign-conversion]
 D:\KiloViewWork\kiloview1\FFmpegDemo\FFmpegRemuxing.c(19,38): warning :    memset(tmp + *size * elem_size, 0, (new_size - *size) * elem_size);
 D:\KiloViewWork\kiloview1\FFmpegDemo\FFmpegRemuxing.c(19,38): warning :                                       ^
-D:\KiloViewWork\kiloview1\FFmpegDemo\FFmpegRemuxing.c(30,24): warning : passing argument 1 of ‘avformat_close_input’ from incompatible pointer type [-Wincompatible-pointer-types]
-D:\KiloViewWork\kiloview1\FFmpegDemo\FFmpegRemuxing.c(30,24): warning :    avformat_close_input(inputfile->formatContext);
-D:\KiloViewWork\kiloview1\FFmpegDemo\FFmpegRemuxing.c(30,24): warning :                         ^~~~~~~~~
-D:\KiloViewWork\kiloview1\FFmpegDemo\include\libavformat\avformat.h(2499,6): message : expected ‘AVFormatContext ** {aka struct AVFormatContext **}’ but argument is of type ‘AVFormatContext * {aka struct AVFormatContext *}’
-D:\KiloViewWork\kiloview1\FFmpegDemo\include\libavformat\avformat.h(2499,6): message :  void avformat_close_input(AVFormatContext **s);
-D:\KiloViewWork\kiloview1\FFmpegDemo\include\libavformat\avformat.h(2499,6): message :       ^~~~~~~~~~~~~~~~~~~~
 D:\KiloViewWork\kiloview1\FFmpegDemo\FFmpegRemuxing.c(64,25): warning : conversion to ‘int’ from ‘unsigned int’ may change the sign of the result [-Wsign-conversion]
 D:\KiloViewWork\kiloview1\FFmpegDemo\FFmpegRemuxing.c(64,25): warning :   inputfile->numStream = fc->nb_streams;
 D:\KiloViewWork\kiloview1\FFmpegDemo\FFmpegRemuxing.c(64,25): warning :                          ^~
@@ -86,33 +80,12 @@ D:\KiloViewWork\kiloview1\FFmpegDemo\FFmpegRemuxing.c(75,24): warning :         
 D:\KiloViewWork\kiloview1\FFmpegDemo\include\libavformat\avformat.h(2499,6): message : expected ‘AVFormatContext ** {aka struct AVFormatContext **}’ but argument is of type ‘AVFormatContext * {aka struct AVFormatContext *}’
 D:\KiloViewWork\kiloview1\FFmpegDemo\include\libavformat\avformat.h(2499,6): message :  void avformat_close_input(AVFormatContext **s);
 D:\KiloViewWork\kiloview1\FFmpegDemo\include\libavformat\avformat.h(2499,6): message :       ^~~~~~~~~~~~~~~~~~~~
-D:\KiloViewWork\kiloview1\FFmpegDemo\FFmpegRemuxing.c(114,43): warning : conversion to ‘unsigned int’ from ‘int’ may change the sign of the result [-Wsign-conversion]
-D:\KiloViewWork\kiloview1\FFmpegDemo\FFmpegRemuxing.c(114,43): warning :     av_program_add_stream_index(fc, i + 1, curStId++);//���������id
-D:\KiloViewWork\kiloview1\FFmpegDemo\FFmpegRemuxing.c(114,43): warning :                                            ^~~~~~~
-D:\KiloViewWork\kiloview1\FFmpegDemo\FFmpegRemuxing.c(197,2): warning : implicit declaration of function ‘avdevice_register_all’; did you mean ‘avcodec_register_all’? [-Wimplicit-function-declaration]
-D:\KiloViewWork\kiloview1\FFmpegDemo\FFmpegRemuxing.c(197,2): warning :   avdevice_register_all();
-D:\KiloViewWork\kiloview1\FFmpegDemo\FFmpegRemuxing.c(197,2): warning :   ^~~~~~~~~~~~~~~~~~~~~
-D:\KiloViewWork\kiloview1\FFmpegDemo\FFmpegRemuxing.c(197,2): warning :   avcodec_register_all
-D:\KiloViewWork\kiloview1\FFmpegDemo\FFmpegRemuxing.c(241,25): warning : passing argument 1 of ‘av_read_frame’ from incompatible pointer type [-Wincompatible-pointer-types]
-D:\KiloViewWork\kiloview1\FFmpegDemo\FFmpegRemuxing.c(241,25): warning :      ret = av_read_frame(inputFile->fileName, &pkt);
-D:\KiloViewWork\kiloview1\FFmpegDemo\FFmpegRemuxing.c(241,25): warning :                          ^~~~~~~~~
-D:\KiloViewWork\kiloview1\FFmpegDemo\include\libavformat\avformat.h(2416,5): message : expected ‘AVFormatContext * {aka struct AVFormatContext *}’ but argument is of type ‘char *’
-D:\KiloViewWork\kiloview1\FFmpegDemo\include\libavformat\avformat.h(2416,5): message :  int av_read_frame(AVFormatContext *s, AVPacket *pkt);
-D:\KiloViewWork\kiloview1\FFmpegDemo\include\libavformat\avformat.h(2416,5): message :      ^~~~~~~~~~~~~
-D:\KiloViewWork\kiloview1\FFmpegDemo\FFmpegRemuxing.c(256,38): warning : passing argument 1 of ‘av_interleaved_write_frame’ from incompatible pointer type [-Wincompatible-pointer-types]
-D:\KiloViewWork\kiloview1\FFmpegDemo\FFmpegRemuxing.c(256,38): warning :      ret = av_interleaved_write_frame(outputFile, &pkt);
-D:\KiloViewWork\kiloview1\FFmpegDemo\FFmpegRemuxing.c(256,38): warning :                                       ^~~~~~~~~~
-D:\KiloViewWork\kiloview1\FFmpegDemo\include\libavformat\avformat.h(2641,5): message : expected ‘AVFormatContext * {aka struct AVFormatContext *}’ but argument is of type ‘OutputFile * {aka struct OutputFile *}’
-D:\KiloViewWork\kiloview1\FFmpegDemo\include\libavformat\avformat.h(2641,5): message :  int av_interleaved_write_frame(AVFormatContext *s, AVPacket *pkt);
-D:\KiloViewWork\kiloview1\FFmpegDemo\include\libavformat\avformat.h(2641,5): message :      ^~~~~~~~~~~~~~~~~~~~~~~~~~
-D:\KiloViewWork\kiloview1\FFmpegDemo\FFmpegRemuxing.c(265,20): warning : passing argument 1 of ‘av_write_trailer’ from incompatible pointer type [-Wincompatible-pointer-types]
-D:\KiloViewWork\kiloview1\FFmpegDemo\FFmpegRemuxing.c(265,20): warning :    av_write_trailer(outputFile);
-D:\KiloViewWork\kiloview1\FFmpegDemo\FFmpegRemuxing.c(265,20): warning :                     ^~~~~~~~~~
-D:\KiloViewWork\kiloview1\FFmpegDemo\include\libavformat\avformat.h(2690,5): message : expected ‘AVFormatContext * {aka struct AVFormatContext *}’ but argument is of type ‘OutputFile * {aka struct OutputFile *}’
-D:\KiloViewWork\kiloview1\FFmpegDemo\include\libavformat\avformat.h(2690,5): message :  int av_write_trailer(AVFormatContext *s);
-D:\KiloViewWork\kiloview1\FFmpegDemo\include\libavformat\avformat.h(2690,5): message :      ^~~~~~~~~~~~~~~~
-D:\KiloViewWork\kiloview1\FFmpegDemo\FFmpegRemuxing.c(235,7): warning : unused variable ‘curStId’ [-Wunused-variable]
-D:\KiloViewWork\kiloview1\FFmpegDemo\FFmpegRemuxing.c(235,7): warning :    int curStId = 0;
-D:\KiloViewWork\kiloview1\FFmpegDemo\FFmpegRemuxing.c(235,7): warning :        ^~~~~~~
+D:\KiloViewWork\kiloview1\FFmpegDemo\FFmpegRemuxing.c(120,49): warning : conversion to ‘unsigned int’ from ‘int’ may change the sign of the result [-Wsign-conversion]
+D:\KiloViewWork\kiloview1\FFmpegDemo\FFmpegRemuxing.c(120,49): warning :     av_program_add_stream_index(fc, program->id, curStId);//���������id
+D:\KiloViewWork\kiloview1\FFmpegDemo\FFmpegRemuxing.c(120,49): warning :                                                  ^~~~~~~
+D:\KiloViewWork\kiloview1\FFmpegDemo\FFmpegRemuxing.c(205,2): warning : implicit declaration of function ‘avdevice_register_all’; did you mean ‘avcodec_register_all’? [-Wimplicit-function-declaration]
+D:\KiloViewWork\kiloview1\FFmpegDemo\FFmpegRemuxing.c(205,2): warning :   avdevice_register_all();
+D:\KiloViewWork\kiloview1\FFmpegDemo\FFmpegRemuxing.c(205,2): warning :   ^~~~~~~~~~~~~~~~~~~~~
+D:\KiloViewWork\kiloview1\FFmpegDemo\FFmpegRemuxing.c(205,2): warning :   avcodec_register_all
   正在链接对象
   FFmpegDemo.vcxproj -> D:\KiloViewWork\kiloview1\FFmpegDemo\bin\x64\Debug\FFmpegDemo.out

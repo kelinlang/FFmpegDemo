@@ -18,9 +18,11 @@ int main()
 	//IOFiles file;
 	//file.inputName = "/home/kelinlang/workspace/testFiles/E1.mp4";
 	//file.outputName = "/home/kelinlang/workspace/testFiles/E1.ts";
-	////file.outputName = "udp://192.168.2.34:1234?pkt_size=1316";
+	//////file.outputName = "udp://192.168.2.34:1234?pkt_size=1316";
 
 	//doTransCode(&file);
+
+
 	int inputsNum = 2;
 	char* inputs[] = { "/home/kelinlang/workspace/testFiles/E1.mp4" ,"/home/kelinlang/workspace/testFiles/Record-null.ts" };
 	char* output = "/home/kelinlang/workspace/testFiles/remux.ts";

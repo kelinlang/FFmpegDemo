@@ -27,7 +27,7 @@ RemuxingContext remuxingContext;
 
 static void freeInputFile(InputFile* inputfile) {
 	if (inputfile != NULL) {
-		avformat_close_input(inputfile->formatContext);
+		avformat_close_input(&inputfile->formatContext);
 		if (inputfile->fileName != NULL) {
 			av_free(inputfile->fileName);
 		}
@@ -73,6 +73,12 @@ static int openInputFile(InputFile* inputfile,int index,char* fileName) {
 static void freeOutputFile(OutputFile* outputfile) {
 	if (outputfile != NULL) {
 		avformat_close_input(outputfile->formatContext);
+		/* close output */
+		if (outputfile->formatContext && !(outputfile->ofmt->flags & AVFMT_NOFILE)) {
+			avio_closep(&outputfile->formatContext->pb);
+		}
+			
+
 		if (outputfile->fileName != NULL) {
 			av_free(outputfile->fileName);
 		}
@@ -111,7 +117,7 @@ static int openOutputFile(RemuxingContext* remuxingContext, OutputFile* outputfi
 		av_dict_set(&program->metadata, "title", "tv", 0);
 
 		for (int j = 0; j < inputFile->numStream; j++) {
-			av_program_add_stream_index(fc, i + 1, curStId++);//设置输出流id
+			av_program_add_stream_index(fc, program->id, curStId);//设置输出流id
 
 			AVStream* inStream = inputFile->formatContext->streams[j];
 
@@ -133,6 +139,7 @@ static int openOutputFile(RemuxingContext* remuxingContext, OutputFile* outputfi
 				printf("Error: Could not allocate output stream.\n");
 				return ret;
 			}
+			outStream->id = curStId;
 
 			AVCodecContext* outAVCodecContext = avcodec_alloc_context3(NULL);
 			if (!outAVCodecContext) {
@@ -160,6 +167,7 @@ static int openOutputFile(RemuxingContext* remuxingContext, OutputFile* outputfi
 
 			avcodec_free_context(&inAVCodecContext);
 			avcodec_free_context(&outAVCodecContext);
+			curStId++;
 		}
 
 	}
@@ -238,14 +246,14 @@ void testRemuxing(int numInputFile,char** inputFileName, char* outputFileName)
 			InputFile* inputFile = pRemuxingContext->inputFiles[i];
 
 			for (int j = 0; j < inputFile->formatContext->nb_streams;j++) {
-				ret = av_read_frame(inputFile->fileName, &pkt);
+				ret = av_read_frame(inputFile->formatContext, &pkt);
 				if (ret < 0) {
 					printf("av_read_frame ret : %d\n", ret);
 					av_log(NULL, AV_LOG_ERROR,"av_read_frame ret : %d\n",ret);
 					break;
 				}
 				in_stream = inputFile->formatContext->streams[pkt.stream_index];
-				out_stream = outputFile->formatContext->streams[i+j];
+				out_stream = outputFile->formatContext->streams[curStId];//取对应的输出流id
 
 				/* copy packet */
 				pkt.pts = av_rescale_q_rnd(pkt.pts, in_stream->time_base, out_stream->time_base, /*(AVRounding)*/(AV_ROUND_NEAR_INF | AV_ROUND_PASS_MINMAX));
@@ -253,7 +261,9 @@ void testRemuxing(int numInputFile,char** inputFileName, char* outputFileName)
 				pkt.duration = av_rescale_q(pkt.duration, in_stream->time_base, out_stream->time_base);
 				pkt.pos = -1;
 
-				ret = av_interleaved_write_frame(outputFile, &pkt);
+				pkt.stream_index = curStId++;
+
+				ret = av_interleaved_write_frame(outputFile->formatContext, &pkt);
 				if (ret < 0)
 				{
 					fprintf(stderr, "Error muxing packet\n");
@@ -262,7 +272,7 @@ void testRemuxing(int numInputFile,char** inputFileName, char* outputFileName)
 				av_free_packet(&pkt);
 			}
 		}
-		av_write_trailer(outputFile);
+		av_write_trailer(outputFile->formatContext);
 		printf("finish remux------------------------------\n");
 	}
 end:
