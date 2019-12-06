@@ -272,9 +272,9 @@ void testRemuxing(int numInputFile,char** inputFileName, char* outputFileName)
 				av_free_packet(&pkt);
 			}
 		}
-		av_write_trailer(outputFile->formatContext);
-		printf("finish remux------------------------------\n");
 	}
+	av_write_trailer(outputFile->formatContext);
+	printf("finish remux------------------------------\n");
 end:
 	freeRemuxingContext(pRemuxingContext);
 }
