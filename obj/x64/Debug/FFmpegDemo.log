@@ -32,10 +32,10 @@ D:\KiloViewWork\kiloview1\FFmpegDemo\include\libavutil\common.h(195,38): warning
 D:\KiloViewWork\kiloview1\FFmpegDemo\include\libavutil\timestamp.h(68,90): warning : conversion to ‘double’ from ‘int64_t {aka long int}’ may alter its value [-Wconversion]
 D:\KiloViewWork\kiloview1\FFmpegDemo\include\libavutil\timestamp.h(68,90): warning :      else                      snprintf(buf, AV_TS_MAX_STRING_SIZE, "%.6g", av_q2d(*tb) * ts);
 D:\KiloViewWork\kiloview1\FFmpegDemo\include\libavutil\timestamp.h(68,90): warning :                                                                                           ^~
-D:\KiloViewWork\kiloview1\FFmpegDemo\main.cpp(27,111): warning : ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
-D:\KiloViewWork\kiloview1\FFmpegDemo\main.cpp(27,111): warning :   char* inputs[] = { "/home/kelinlang/workspace/testFiles/E1.mp4" ,"/home/kelinlang/workspace/testFiles/E1.mp4"};
-D:\KiloViewWork\kiloview1\FFmpegDemo\main.cpp(27,111): warning :                                                                                                                ^
-D:\KiloViewWork\kiloview1\FFmpegDemo\main.cpp(27,111): warning : ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
+D:\KiloViewWork\kiloview1\FFmpegDemo\main.cpp(27,119): warning : ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
+D:\KiloViewWork\kiloview1\FFmpegDemo\main.cpp(27,119): warning :   char* inputs[] = { "/home/kelinlang/workspace/testFiles/E1.mp4" ,"/home/kelinlang/workspace/testFiles/Record-null.ts"};
+D:\KiloViewWork\kiloview1\FFmpegDemo\main.cpp(27,119): warning :                                                                                                                        ^
+D:\KiloViewWork\kiloview1\FFmpegDemo\main.cpp(27,119): warning : ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
 D:\KiloViewWork\kiloview1\FFmpegDemo\main.cpp(28,17): warning : ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
 D:\KiloViewWork\kiloview1\FFmpegDemo\main.cpp(28,17): warning :   char* output = "/home/kelinlang/workspace/testFiles/remux.ts";
 D:\KiloViewWork\kiloview1\FFmpegDemo\main.cpp(28,17): warning :                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

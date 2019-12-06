@@ -431,7 +431,12 @@ void testRemuxing(int numInputFile,char** inputFileName, char* outputFileName)
 				break;
 			}
 			in_stream = inputFile->formatContext->streams[pkt.stream_index];
-			out_stream = outputFile->formatContext->streams[curStId];//取对应的输出流id
+			if (i == 1) {
+				out_stream = outputFile->formatContext->streams[pkt.stream_index+2];//取对应的输出流id
+			}else{
+				out_stream = outputFile->formatContext->streams[pkt.stream_index];//取对应的输出流id
+			}
+			
 
 			/* copy packet */
 			pkt.pts = av_rescale_q_rnd(pkt.pts, in_stream->time_base, out_stream->time_base, /*(AVRounding)*/(AV_ROUND_NEAR_INF | AV_ROUND_PASS_MINMAX));
@@ -439,7 +444,10 @@ void testRemuxing(int numInputFile,char** inputFileName, char* outputFileName)
 			pkt.duration = av_rescale_q(pkt.duration, in_stream->time_base, out_stream->time_base);
 			pkt.pos = -1;
 
-			pkt.stream_index = curStId++;
+			if (i == 1) {
+				pkt.stream_index = pkt.stream_index + 2;//取对应的输出流id
+			}
+			
 
 			ret = av_interleaved_write_frame(outputFile->formatContext, &pkt);
 			if (ret < 0)
