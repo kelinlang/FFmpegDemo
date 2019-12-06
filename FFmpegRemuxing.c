@@ -1,6 +1,115 @@
 #include "FFmpegRemuxing.h"
 
 
+//static void* input_thread(void* arg)
+//{
+//	InputFile* f = arg;
+//	unsigned flags = f->non_blocking ? AV_THREAD_MESSAGE_NONBLOCK : 0;
+//	int ret = 0;
+//
+//	while (1) {
+//		AVPacket pkt;
+//		ret = av_read_frame(f->formatContext, &pkt);
+//
+//		if (ret == AVERROR(EAGAIN)) {
+//			av_usleep(10000);
+//			continue;
+//		}
+//		if (ret < 0) {
+//			av_thread_message_queue_set_err_recv(f->in_thread_queue, ret);
+//			break;
+//		}
+//		ret = av_thread_message_queue_send(f->in_thread_queue, &pkt, flags);
+//		if (flags && ret == AVERROR(EAGAIN)) {
+//			flags = 0;
+//			ret = av_thread_message_queue_send(f->in_thread_queue, &pkt, flags);
+//			av_log(f->formatContext, AV_LOG_WARNING,
+//				"Thread message queue blocking; consider raising the "
+//				"thread_queue_size option (current value: %d)\n",
+//				f->thread_queue_size);
+//		}
+//		if (ret < 0) {
+//			if (ret != AVERROR_EOF)
+//				av_log(f->formatContext, AV_LOG_ERROR,
+//					"Unable to send packet to main thread: %s\n",
+//					av_err2str(ret));
+//			av_packet_unref(&pkt);
+//			av_thread_message_queue_set_err_recv(f->in_thread_queue, ret);
+//			break;
+//		}
+//	}
+//
+//	return NULL;
+//}
+//
+//static void free_input_thread(int i,RemuxingContext* remuxingContext)
+//{
+//	InputFile* f = remuxingContext->inputFiles[i];
+//	AVPacket pkt;
+//
+//	if (!f || !f->in_thread_queue)
+//		return;
+//	av_thread_message_queue_set_err_send(f->in_thread_queue, AVERROR_EOF);
+//	while (av_thread_message_queue_recv(f->in_thread_queue, &pkt, 0) >= 0)
+//		av_packet_unref(&pkt);
+//
+//	pthread_join(f->thread, NULL);
+//	f->joined = 1;
+//	av_thread_message_queue_free(&f->in_thread_queue);
+//}
+//
+//static void free_input_threads(RemuxingContext* remuxingContext)
+//{
+//	int i;
+//
+//	for (i = 0; i < remuxingContext->inputFiles[i]; i++)
+//		free_input_thread(i, remuxingContext);
+//}
+//
+//static int init_input_thread(int i, RemuxingContext* remuxingContext)
+//{
+//	int ret;
+//	InputFile* f = remuxingContext->inputFiles[i];
+//
+//	if (remuxingContext->nbInputFiles == 1)
+//		return 0;
+//
+//	if (f->formatContext->pb ? !f->formatContext->pb->seekable :
+//		strcmp(f->formatContext->iformat->name, "lavfi"))
+//		f->non_blocking = 1;
+//	ret = av_thread_message_queue_alloc(&f->in_thread_queue,
+//		f->thread_queue_size, sizeof(AVPacket));
+//	if (ret < 0)
+//		return ret;
+//
+//	if ((ret = pthread_create(&f->thread, NULL, input_thread, f))) {
+//		av_log(NULL, AV_LOG_ERROR, "pthread_create failed: %s. Try to increase `ulimit -v` or decrease `ulimit -s`.\n", strerror(ret));
+//		av_thread_message_queue_free(&f->in_thread_queue);
+//		return AVERROR(ret);
+//	}
+//
+//	return 0;
+//}
+//
+//static int init_input_threads(RemuxingContext* remuxingContext)
+//{
+//	int i, ret;
+//
+//	for (i = 0; i < remuxingContext->nbInputFiles; i++) {
+//		ret = init_input_thread(i, remuxingContext);
+//		if (ret < 0)
+//			return ret;
+//	}
+//	return 0;
+//}
+//
+//static int get_input_packet_mt(InputFile* f, AVPacket* pkt)
+//{
+//	return av_thread_message_queue_recv(f->in_thread_queue, pkt,
+//		f->non_blocking ?
+//		AV_THREAD_MESSAGE_NONBLOCK : 0);
+//}
+
 #define GROW_ARRAY(array, nb_elems)\
     array = grow_array(array, sizeof(*array), &nb_elems, nb_elems + 1)
 
@@ -41,7 +150,7 @@ static InputFile* allocInputFile() {
 }
 
 
-static int openInputFile(InputFile* inputfile,int index,char* fileName) {
+static int openInputFile(RemuxingContext* remuxingContext,InputFile* inputfile,int index,char* fileName) {
 	int ret = -1;
 	AVFormatContext* fc = NULL;
 	
@@ -67,12 +176,22 @@ static int openInputFile(InputFile* inputfile,int index,char* fileName) {
 	//strcpy(inputfile->fileName, fileName);
 
 	printf("%s stream is %d.\n", inputfile->fileName, inputfile->numStream);
+
+	for (int i = 0; i < fc->nb_streams;i++) {
+		GROW_ARRAY(remuxingContext->inStreams, remuxingContext->numInStream);
+		AVStream* as = fc->streams[i];
+		InputStream* inputStream = av_mallocz(sizeof(InputStream));
+		inputStream->file_index = index;
+		inputStream->st = as;
+		remuxingContext->inStreams[i] = inputStream;
+	}
+
 	return ret;
 }
 
 static void freeOutputFile(OutputFile* outputfile) {
 	if (outputfile != NULL) {
-		avformat_close_input(outputfile->formatContext);
+		/*avformat_close_input(outputfile->formatContext);*/
 		/* close output */
 		if (outputfile->formatContext && !(outputfile->ofmt->flags & AVFMT_NOFILE)) {
 			avio_closep(&outputfile->formatContext->pb);
@@ -177,6 +296,7 @@ static int openOutputFile(RemuxingContext* remuxingContext, OutputFile* outputfi
 		//av_dict_set(&program->metadata, "title", inputFile->fileName, 0);
 		av_dict_set(&program->metadata, "title", "tv", 0);
 		InputFile* inputFile = remuxingContext->inputFiles[i];
+
 		for (int j = 0; j < inputFile->numStream; j++) {
 			av_program_add_stream_index(fc, program->id, curStId++);//设置输出流id
 		}
@@ -222,10 +342,11 @@ void testRemuxing(int numInputFile,char** inputFileName, char* outputFileName)
 	memset(&remuxingContext, 0, sizeof(struct RemuxingContext));
 	remuxingContext.nbInputFiles = 0;//
 	printf("open in put file\n");
+
 	for (int i = 0; i < numInputFile;i++) {
 		GROW_ARRAY(remuxingContext.inputFiles, remuxingContext.nbInputFiles);
 		InputFile* inputFile = allocInputFile();
-		if (openInputFile(inputFile,i, inputFileName[i]) >= 0) {
+		if (openInputFile(pRemuxingContext,inputFile,i, inputFileName[i]) >= 0) {
 			remuxingContext.inputFiles[remuxingContext.nbInputFiles - 1] = inputFile;
 			pRemuxingContext->totalStreams += inputFile->numStream;
 		}else {
@@ -246,44 +367,79 @@ void testRemuxing(int numInputFile,char** inputFileName, char* outputFileName)
 	}
 
 	AVPacket pkt;
-
-	while (1)
+	int loop = 1;
+	while (loop)
 	{
+		//for (int i = 0; i < numInputFile;i++) {
+		//	InputStream* in_stream = pRemuxingContext->inStreams[i];
+		//	AVStream* out_stream = pRemuxingContext->outputFile->formatContext->streams[i];//取对应的输出流id
+
+		//	ret = av_read_frame(pRemuxingContext->inputFiles[in_stream->file_index]->formatContext, &pkt);
+		//	if (ret == AVERROR(EAGAIN)) {
+		//		av_usleep(10000);
+		//		continue;
+		//	}
+		//	if (ret < 0) {
+		//		printf("     av_read_frame ret : %d\n", -ret);
+		//		//av_log(NULL, AV_LOG_ERROR,"av_read_frame ret : %d\n",-ret);
+		//		continue;
+		//	}
+
+		//	/* copy packet */
+		//	pkt.pts = av_rescale_q_rnd(pkt.pts, in_stream->st->time_base, out_stream->time_base, /*(AVRounding)*/(AV_ROUND_NEAR_INF | AV_ROUND_PASS_MINMAX));
+		//	pkt.dts = av_rescale_q_rnd(pkt.dts, in_stream->st->time_base, out_stream->time_base, /*(AVRounding)*/(AV_ROUND_NEAR_INF | AV_ROUND_PASS_MINMAX));
+		//	pkt.duration = av_rescale_q(pkt.duration, in_stream->st->time_base, out_stream->time_base);
+		//	pkt.pos = -1;
+
+		//	pkt.stream_index = i;
+
+		//	ret = av_interleaved_write_frame(outputFile->formatContext, &pkt);
+		//	if (ret < 0)
+		//	{
+		//		fprintf(stderr, "         -----------Error muxing packet\n");
+		//		break;
+		//	}
+		//	av_free_packet(&pkt);
+		//}
+		
 		AVStream* in_stream, * out_stream;
 		int curStId = 0;
 		OutputFile* outputFile = pRemuxingContext->outputFile;
 		for (int i = 0; i < numInputFile;i++) {
 			InputFile* inputFile = pRemuxingContext->inputFiles[i];
 
-			for (int j = 0; j < inputFile->formatContext->nb_streams;j++) {
-				ret = av_read_frame(inputFile->formatContext, &pkt);
-				if (ret < 0) {
-					printf("av_read_frame ret : %d\n", ret);
-					av_log(NULL, AV_LOG_ERROR,"av_read_frame ret : %d\n",ret);
-					break;
-				}
-				in_stream = inputFile->formatContext->streams[pkt.stream_index];
-				out_stream = outputFile->formatContext->streams[curStId];//取对应的输出流id
-
-				/* copy packet */
-				pkt.pts = av_rescale_q_rnd(pkt.pts, in_stream->time_base, out_stream->time_base, /*(AVRounding)*/(AV_ROUND_NEAR_INF | AV_ROUND_PASS_MINMAX));
-				pkt.dts = av_rescale_q_rnd(pkt.dts, in_stream->time_base, out_stream->time_base, /*(AVRounding)*/(AV_ROUND_NEAR_INF | AV_ROUND_PASS_MINMAX));
-				pkt.duration = av_rescale_q(pkt.duration, in_stream->time_base, out_stream->time_base);
-				pkt.pos = -1;
-
-				pkt.stream_index = curStId++;
-
-				ret = av_interleaved_write_frame(outputFile->formatContext, &pkt);
-				if (ret < 0)
-				{
-					fprintf(stderr, "Error muxing packet\n");
-					break;
-				}
-				av_free_packet(&pkt);
+			ret = av_read_frame(inputFile->formatContext, &pkt);
+			if (ret == AVERROR(EAGAIN)) {
+				av_usleep(10000);
+				continue;
 			}
+			if (ret < 0) {
+				printf("    av_read_frame ret : %d\n", -ret);
+				//av_log(NULL, AV_LOG_ERROR,"av_read_frame ret : %d\n",-ret);
+				loop = 0;
+				break;
+			}
+			in_stream = inputFile->formatContext->streams[pkt.stream_index];
+			out_stream = outputFile->formatContext->streams[curStId];//取对应的输出流id
+
+			/* copy packet */
+			pkt.pts = av_rescale_q_rnd(pkt.pts, in_stream->time_base, out_stream->time_base, /*(AVRounding)*/(AV_ROUND_NEAR_INF | AV_ROUND_PASS_MINMAX));
+			pkt.dts = av_rescale_q_rnd(pkt.dts, in_stream->time_base, out_stream->time_base, /*(AVRounding)*/(AV_ROUND_NEAR_INF | AV_ROUND_PASS_MINMAX));
+			pkt.duration = av_rescale_q(pkt.duration, in_stream->time_base, out_stream->time_base);
+			pkt.pos = -1;
+
+			pkt.stream_index = curStId++;
+
+			ret = av_interleaved_write_frame(outputFile->formatContext, &pkt);
+			if (ret < 0)
+			{
+				fprintf(stderr, "Error muxing packet\n");
+				break;
+			}
+			av_free_packet(&pkt);
 		}
 	}
-	av_write_trailer(outputFile->formatContext);
+	av_write_trailer(pRemuxingContext->outputFile->formatContext);
 	printf("finish remux------------------------------\n");
 end:
 	freeRemuxingContext(pRemuxingContext);

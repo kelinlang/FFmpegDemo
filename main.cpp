@@ -23,8 +23,8 @@ int main()
 	//doTransCode(&file);
 
 
-	int inputsNum = 2;
-	char* inputs[] = { "/home/kelinlang/workspace/testFiles/E1.mp4" ,"/home/kelinlang/workspace/testFiles/Record-null.ts" };
+	int inputsNum = 1;
+	char* inputs[] = { "/home/kelinlang/workspace/testFiles/E1.mp4"/* ,"/home/kelinlang/workspace/testFiles/Record-null.ts" */};
 	char* output = "/home/kelinlang/workspace/testFiles/remux.ts";
 	testRemuxing(inputsNum,inputs,output);
 	printf("hello from FFmpegDemo  finish!\n");

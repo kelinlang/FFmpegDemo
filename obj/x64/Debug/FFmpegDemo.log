@@ -62,30 +62,28 @@ D:\KiloViewWork\kiloview1\FFmpegDemo\include\libavutil\common.h(334,20): warning
 D:\KiloViewWork\kiloview1\FFmpegDemo\include\libavutil\timestamp.h(68,88): warning : conversion to ‘double’ from ‘int64_t {aka long int}’ may alter its value [-Wconversion]
 D:\KiloViewWork\kiloview1\FFmpegDemo\include\libavutil\timestamp.h(68,88): warning :      else                      snprintf(buf, AV_TS_MAX_STRING_SIZE, "%.6g", av_q2d(*tb) * ts);
 D:\KiloViewWork\kiloview1\FFmpegDemo\include\libavutil\timestamp.h(68,88): warning :                                                                                         ^
-D:\KiloViewWork\kiloview1\FFmpegDemo\FFmpegRemuxing.c(14,42): warning : conversion to ‘size_t {aka long unsigned int}’ from ‘int’ may change the sign of the result [-Wsign-conversion]
-D:\KiloViewWork\kiloview1\FFmpegDemo\FFmpegRemuxing.c(14,42): warning :    uint8_t* tmp = av_realloc_array(array, new_size, elem_size);
-D:\KiloViewWork\kiloview1\FFmpegDemo\FFmpegRemuxing.c(14,42): warning :                                           ^~~~~~~~
-D:\KiloViewWork\kiloview1\FFmpegDemo\FFmpegRemuxing.c(14,52): warning : conversion to ‘size_t {aka long unsigned int}’ from ‘int’ may change the sign of the result [-Wsign-conversion]
-D:\KiloViewWork\kiloview1\FFmpegDemo\FFmpegRemuxing.c(14,52): warning :    uint8_t* tmp = av_realloc_array(array, new_size, elem_size);
-D:\KiloViewWork\kiloview1\FFmpegDemo\FFmpegRemuxing.c(14,52): warning :                                                     ^~~~~~~~~
-D:\KiloViewWork\kiloview1\FFmpegDemo\FFmpegRemuxing.c(19,38): warning : conversion to ‘size_t {aka long unsigned int}’ from ‘int’ may change the sign of the result [-Wsign-conversion]
-D:\KiloViewWork\kiloview1\FFmpegDemo\FFmpegRemuxing.c(19,38): warning :    memset(tmp + *size * elem_size, 0, (new_size - *size) * elem_size);
-D:\KiloViewWork\kiloview1\FFmpegDemo\FFmpegRemuxing.c(19,38): warning :                                       ^
-D:\KiloViewWork\kiloview1\FFmpegDemo\FFmpegRemuxing.c(64,25): warning : conversion to ‘int’ from ‘unsigned int’ may change the sign of the result [-Wsign-conversion]
-D:\KiloViewWork\kiloview1\FFmpegDemo\FFmpegRemuxing.c(64,25): warning :   inputfile->numStream = fc->nb_streams;
-D:\KiloViewWork\kiloview1\FFmpegDemo\FFmpegRemuxing.c(64,25): warning :                          ^~
-D:\KiloViewWork\kiloview1\FFmpegDemo\FFmpegRemuxing.c(75,24): warning : passing argument 1 of ‘avformat_close_input’ from incompatible pointer type [-Wincompatible-pointer-types]
-D:\KiloViewWork\kiloview1\FFmpegDemo\FFmpegRemuxing.c(75,24): warning :    avformat_close_input(outputfile->formatContext);
-D:\KiloViewWork\kiloview1\FFmpegDemo\FFmpegRemuxing.c(75,24): warning :                         ^~~~~~~~~~
-D:\KiloViewWork\kiloview1\FFmpegDemo\include\libavformat\avformat.h(2499,6): message : expected ‘AVFormatContext ** {aka struct AVFormatContext **}’ but argument is of type ‘AVFormatContext * {aka struct AVFormatContext *}’
-D:\KiloViewWork\kiloview1\FFmpegDemo\include\libavformat\avformat.h(2499,6): message :  void avformat_close_input(AVFormatContext **s);
-D:\KiloViewWork\kiloview1\FFmpegDemo\include\libavformat\avformat.h(2499,6): message :       ^~~~~~~~~~~~~~~~~~~~
-D:\KiloViewWork\kiloview1\FFmpegDemo\FFmpegRemuxing.c(181,49): warning : conversion to ‘unsigned int’ from ‘int’ may change the sign of the result [-Wsign-conversion]
-D:\KiloViewWork\kiloview1\FFmpegDemo\FFmpegRemuxing.c(181,49): warning :     av_program_add_stream_index(fc, program->id, curStId++);//���������id
-D:\KiloViewWork\kiloview1\FFmpegDemo\FFmpegRemuxing.c(181,49): warning :                                                  ^~~~~~~
-D:\KiloViewWork\kiloview1\FFmpegDemo\FFmpegRemuxing.c(215,2): warning : implicit declaration of function ‘avdevice_register_all’; did you mean ‘avcodec_register_all’? [-Wimplicit-function-declaration]
-D:\KiloViewWork\kiloview1\FFmpegDemo\FFmpegRemuxing.c(215,2): warning :   avdevice_register_all();
-D:\KiloViewWork\kiloview1\FFmpegDemo\FFmpegRemuxing.c(215,2): warning :   ^~~~~~~~~~~~~~~~~~~~~
-D:\KiloViewWork\kiloview1\FFmpegDemo\FFmpegRemuxing.c(215,2): warning :   avcodec_register_all
+D:\KiloViewWork\kiloview1\FFmpegDemo\FFmpegRemuxing.c(123,42): warning : conversion to ‘size_t {aka long unsigned int}’ from ‘int’ may change the sign of the result [-Wsign-conversion]
+D:\KiloViewWork\kiloview1\FFmpegDemo\FFmpegRemuxing.c(123,42): warning :    uint8_t* tmp = av_realloc_array(array, new_size, elem_size);
+D:\KiloViewWork\kiloview1\FFmpegDemo\FFmpegRemuxing.c(123,42): warning :                                           ^~~~~~~~
+D:\KiloViewWork\kiloview1\FFmpegDemo\FFmpegRemuxing.c(123,52): warning : conversion to ‘size_t {aka long unsigned int}’ from ‘int’ may change the sign of the result [-Wsign-conversion]
+D:\KiloViewWork\kiloview1\FFmpegDemo\FFmpegRemuxing.c(123,52): warning :    uint8_t* tmp = av_realloc_array(array, new_size, elem_size);
+D:\KiloViewWork\kiloview1\FFmpegDemo\FFmpegRemuxing.c(123,52): warning :                                                     ^~~~~~~~~
+D:\KiloViewWork\kiloview1\FFmpegDemo\FFmpegRemuxing.c(128,38): warning : conversion to ‘size_t {aka long unsigned int}’ from ‘int’ may change the sign of the result [-Wsign-conversion]
+D:\KiloViewWork\kiloview1\FFmpegDemo\FFmpegRemuxing.c(128,38): warning :    memset(tmp + *size * elem_size, 0, (new_size - *size) * elem_size);
+D:\KiloViewWork\kiloview1\FFmpegDemo\FFmpegRemuxing.c(128,38): warning :                                       ^
+D:\KiloViewWork\kiloview1\FFmpegDemo\FFmpegRemuxing.c(173,25): warning : conversion to ‘int’ from ‘unsigned int’ may change the sign of the result [-Wsign-conversion]
+D:\KiloViewWork\kiloview1\FFmpegDemo\FFmpegRemuxing.c(173,25): warning :   inputfile->numStream = fc->nb_streams;
+D:\KiloViewWork\kiloview1\FFmpegDemo\FFmpegRemuxing.c(173,25): warning :                          ^~
+D:\KiloViewWork\kiloview1\FFmpegDemo\FFmpegRemuxing.c(301,49): warning : conversion to ‘unsigned int’ from ‘int’ may change the sign of the result [-Wsign-conversion]
+D:\KiloViewWork\kiloview1\FFmpegDemo\FFmpegRemuxing.c(301,49): warning :     av_program_add_stream_index(fc, program->id, curStId++);//���������id
+D:\KiloViewWork\kiloview1\FFmpegDemo\FFmpegRemuxing.c(301,49): warning :                                                  ^~~~~~~
+D:\KiloViewWork\kiloview1\FFmpegDemo\FFmpegRemuxing.c(335,2): warning : implicit declaration of function ‘avdevice_register_all’; did you mean ‘avcodec_register_all’? [-Wimplicit-function-declaration]
+D:\KiloViewWork\kiloview1\FFmpegDemo\FFmpegRemuxing.c(335,2): warning :   avdevice_register_all();
+D:\KiloViewWork\kiloview1\FFmpegDemo\FFmpegRemuxing.c(335,2): warning :   ^~~~~~~~~~~~~~~~~~~~~
+D:\KiloViewWork\kiloview1\FFmpegDemo\FFmpegRemuxing.c(335,2): warning :   avcodec_register_all
+D:\KiloViewWork\kiloview1\FFmpegDemo\FFmpegRemuxing.c(413,5): warning : implicit declaration of function ‘av_usleep’; did you mean ‘av_freep’? [-Wimplicit-function-declaration]
+D:\KiloViewWork\kiloview1\FFmpegDemo\FFmpegRemuxing.c(413,5): warning :      av_usleep(10000);
+D:\KiloViewWork\kiloview1\FFmpegDemo\FFmpegRemuxing.c(413,5): warning :      ^~~~~~~~~
+D:\KiloViewWork\kiloview1\FFmpegDemo\FFmpegRemuxing.c(413,5): warning :      av_freep
   正在链接对象
   FFmpegDemo.vcxproj -> D:\KiloViewWork\kiloview1\FFmpegDemo\bin\x64\Debug\FFmpegDemo.out

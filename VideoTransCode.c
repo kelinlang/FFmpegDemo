@@ -132,10 +132,8 @@ void doTransCode(IOFiles* files)
 			continue;
 		}
 		if (ret < 0) {
-			printf("av_read_frame ret : %d\n",ret);
-			av_log(NULL, AV_LOG_ERROR,
-				"av_read_frame ret : %d\n",
-				ret);
+			printf("        av_read_frame ret : %d\n",ret);
+			//av_log(NULL, AV_LOG_ERROR,"av_read_frame ret : %d\n",ret);
 			break;
 		}
 	
