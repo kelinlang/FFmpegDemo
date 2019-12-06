@@ -166,7 +166,7 @@ static int openInputFile(RemuxingContext* remuxingContext,InputFile* inputfile,i
 		printf("Error: Failed to retrieve input stream information.\n");
 		return ret;
 	}
-	av_dump_format(fc, 0, fileName, 0);
+	av_dump_format(fc, index, fileName, 0);
 
 	inputfile->formatContext = fc;
 	inputfile->index = index;
@@ -330,7 +330,7 @@ void freeRemuxingContext(RemuxingContext* rc) {
 
 void testRemuxing(int numInputFile,char** inputFileName, char* outputFileName)
 {
-
+	av_log_set_level(AV_LOG_DEBUG);
 	//#if CONFIG_AVDEVICE
 	avdevice_register_all();
 	//#endif

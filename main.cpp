@@ -26,6 +26,7 @@ int main()
 	int inputsNum = 2;
 	char* inputs[] = { "/home/kelinlang/workspace/testFiles/E1.mp4" ,"/home/kelinlang/workspace/testFiles/Record-null.ts"};
 	char* output = "/home/kelinlang/workspace/testFiles/remux.ts";
+	output = "udp://192.168.2.34:1234?pkt_size=1316";
 	testRemuxing(inputsNum,inputs,output);
 	printf("hello from FFmpegDemo  finish!\n");
 
