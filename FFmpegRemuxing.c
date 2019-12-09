@@ -464,7 +464,8 @@ void testRemuxing(int numInputFile,char** inputFileName, char* outputFileName)
 			av_free_packet(&pkt);
 			
 		}
-		av_usleep(10000);
+		av_usleep(10000);//延迟10ms，要不然一下推完流，播放端缓存不了那么多，会做处理
+
 	}
 	printf("    readNum : %d\n", readNum);
 	av_write_trailer(pRemuxingContext->outputFile->formatContext);
