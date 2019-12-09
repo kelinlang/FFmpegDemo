@@ -306,7 +306,10 @@ static int openOutputFile(RemuxingContext* remuxingContext, OutputFile* outputfi
 
 	if (!(ofmt->flags & AVFMT_NOFILE))
 	{
-		ret = avio_open(&fc->pb, fileName, AVIO_FLAG_WRITE);
+		AVDictionary* options = NULL;
+		av_dict_set(&options, "protocol_whitelist", "file,udp,rtp", 0);
+		ret = avio_open2(&fc->pb, fileName, AVIO_FLAG_WRITE,NULL,&options);
+		//ret = avio_open(&fc->pb, fileName, AVIO_FLAG_WRITE);
 		if (ret < 0)
 		{
 			printf("Error: Could not open output file £º%s\n",fileName);
@@ -375,6 +378,7 @@ void testRemuxing(int numInputFile,char** inputFileName, char* outputFileName)
 	
 	AVPacket pkt;
 	int loop = numInputFile;
+	int  readNum = 0;
 	while (loop)
 	{
 		//for (int i = 0; i < numInputFile;i++) {
@@ -411,6 +415,7 @@ void testRemuxing(int numInputFile,char** inputFileName, char* outputFileName)
 		
 		AVStream* in_stream, * out_stream;
 		int curStId = 0;
+		
 		OutputFile* outputFile = pRemuxingContext->outputFile;
 		for (int i = 0; i < numInputFile;i++) {
 			if (needRead[i] == 0) {
@@ -423,6 +428,7 @@ void testRemuxing(int numInputFile,char** inputFileName, char* outputFileName)
 				av_usleep(10000);
 				continue;
 			}
+			readNum++;
 			if (ret < 0) {
 				printf("    av_read_frame ret : %d\n", -ret);
 				//av_log(NULL, AV_LOG_ERROR,"av_read_frame ret : %d\n",-ret);
@@ -456,8 +462,11 @@ void testRemuxing(int numInputFile,char** inputFileName, char* outputFileName)
 				break;
 			}
 			av_free_packet(&pkt);
+			
 		}
+		av_usleep(10000);
 	}
+	printf("    readNum : %d\n", readNum);
 	av_write_trailer(pRemuxingContext->outputFile->formatContext);
 	printf("finish remux------------------------------\n");
 end:
