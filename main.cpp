@@ -28,17 +28,24 @@ int main()
 	//char* output = "/home/kelinlang/workspace/testFiles/remux.ts";
 	//output = "udp://192.168.2.34:1234?pkt_size=1316";
 
-	int inputsNum = 2;
-	char* inputs[] = { "/home/kelinlang/workspace/testFiles/E1.mp4" ,"/home/kelinlang/workspace/testFiles/Record-null.ts" };
-	char* output = "/home/kelinlang/workspace/testFiles/remux.ts";
-	output = "udp://192.168.2.34:1234?pkt_size=1316";
+	//int inputsNum = 2;
+	//char* inputs[] = { "/home/kelinlang/workspace/testFiles/E1.mp4" ,"/home/kelinlang/workspace/testFiles/Record-null.ts" };
+	//char* output = "/home/kelinlang/workspace/testFiles/remux.ts";
+	//output = "udp://192.168.2.34:1234?pkt_size=1316";
+	//char* outFormat = "mpegts";
 
 	/*int inputsNum = 1;
 	char* inputs[] = { "/home/kelinlang/workspace/testFiles/E1.mp4"};
 	char* output = "/home/kelinlang/workspace/testFiles/remux.ts";
 	output = "udp://192.168.2.34:1234?pkt_size=1316";*/
 
-	testRemuxing(inputsNum,inputs,output);
+	int inputsNum = 1;
+	//char* inputs[] = { "/home/kelinlang/workspace/testFiles/E1.mp4"};
+	char* inputs[] = { "/home/kelinlang/workspace/testFiles/E1h265.mp4"};
+	char* output = "rtmp://192.168.2.162:1935/live/test";
+	char* outFormat = "flv";
+
+	testRemuxing(inputsNum,inputs,output, outFormat);
 	printf("hello from FFmpegDemo  finish!\n");
 
     return 0;

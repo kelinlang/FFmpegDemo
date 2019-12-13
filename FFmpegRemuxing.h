@@ -54,7 +54,7 @@ typedef struct RemuxingContext {
 
 
 
-void testRemuxing(int numInputFile, char** inputFileName, char* outputFileName);
+void testRemuxing(int numInputFile, char** inputFileName, char* outputFileName,char* outputFormat);
 
 
 

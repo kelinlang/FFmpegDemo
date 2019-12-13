@@ -291,24 +291,27 @@ static int openOutputFile(RemuxingContext* remuxingContext, OutputFile* outputfi
 	}
 
 	curStId = 0;
-	for (int i = 0; i < remuxingContext->nbInputFiles;i++) {//节目信息放在创建流之后，还没弄清楚缘由
-		AVProgram* program = av_new_program(fc, i + 1);
-		//av_dict_set(&program->metadata, "title", inputFile->fileName, 0);
-		
-		av_dict_set(&program->metadata, "title", "tv", 0);
-		InputFile* inputFile = remuxingContext->inputFiles[i];
+	if (!strcmp(format, "mpegts")) {
+		for (int i = 0; i < remuxingContext->nbInputFiles;i++) {//节目信息放在创建流之后，还没弄清楚缘由
+			AVProgram* program = av_new_program(fc, i + 1);
+			//av_dict_set(&program->metadata, "title", inputFile->fileName, 0);
 
-		for (int j = 0; j < inputFile->numStream; j++) {
-			av_program_add_stream_index(fc, program->id, curStId++);//设置输出流id
+			av_dict_set(&program->metadata, "title", "tv", 0);
+			InputFile* inputFile = remuxingContext->inputFiles[i];
+
+			for (int j = 0; j < inputFile->numStream; j++) {
+				av_program_add_stream_index(fc, program->id, curStId++);//设置输出流id
+			}
 		}
 	}
+	
 
 	av_dump_format(fc, 0, fileName, 1);
 
 	if (!(ofmt->flags & AVFMT_NOFILE))
 	{
 		AVDictionary* options = NULL;
-		av_dict_set(&options, "protocol_whitelist", "file,udp,rtp", 0);
+		av_dict_set(&options, "protocol_whitelist", "file,udp,rtp,rtmp,rtsp,tcp", 0);
 		ret = avio_open2(&fc->pb, fileName, AVIO_FLAG_WRITE,NULL,&options);
 		//ret = avio_open(&fc->pb, fileName, AVIO_FLAG_WRITE);
 		if (ret < 0)
@@ -332,7 +335,7 @@ void freeRemuxingContext(RemuxingContext* rc) {
 }
 
 
-void testRemuxing(int numInputFile,char** inputFileName, char* outputFileName)
+void testRemuxing(int numInputFile,char** inputFileName, char* outputFileName, char* outputFormat)
 {
 	av_log_set_level(AV_LOG_DEBUG);
 	//#if CONFIG_AVDEVICE
@@ -360,7 +363,7 @@ void testRemuxing(int numInputFile,char** inputFileName, char* outputFileName)
 	}
 	printf("open out put file\n");
 	OutputFile* outputFile = allocOutputFile();
-	openOutputFile(pRemuxingContext, outputFile, outputFileName, "mpegts");
+	openOutputFile(pRemuxingContext, outputFile, outputFileName, outputFormat);
 
 
 	int needRead[numInputFile];
@@ -382,38 +385,6 @@ void testRemuxing(int numInputFile,char** inputFileName, char* outputFileName)
 	int  readNum = 0;
 	while (loop)
 	{
-		//for (int i = 0; i < numInputFile;i++) {
-		//	InputStream* in_stream = pRemuxingContext->inStreams[i];
-		//	AVStream* out_stream = pRemuxingContext->outputFile->formatContext->streams[i];//取对应的输出流id
-
-		//	ret = av_read_frame(pRemuxingContext->inputFiles[in_stream->file_index]->formatContext, &pkt);
-		//	if (ret == AVERROR(EAGAIN)) {
-		//		av_usleep(10000);
-		//		continue;
-		//	}
-		//	if (ret < 0) {
-		//		printf("     av_read_frame ret : %d\n", -ret);
-		//		//av_log(NULL, AV_LOG_ERROR,"av_read_frame ret : %d\n",-ret);
-		//		continue;
-		//	}
-
-		//	/* copy packet */
-		//	pkt.pts = av_rescale_q_rnd(pkt.pts, in_stream->st->time_base, out_stream->time_base, /*(AVRounding)*/(AV_ROUND_NEAR_INF | AV_ROUND_PASS_MINMAX));
-		//	pkt.dts = av_rescale_q_rnd(pkt.dts, in_stream->st->time_base, out_stream->time_base, /*(AVRounding)*/(AV_ROUND_NEAR_INF | AV_ROUND_PASS_MINMAX));
-		//	pkt.duration = av_rescale_q(pkt.duration, in_stream->st->time_base, out_stream->time_base);
-		//	pkt.pos = -1;
-
-		//	pkt.stream_index = i;
-
-		//	ret = av_interleaved_write_frame(outputFile->formatContext, &pkt);
-		//	if (ret < 0)
-		//	{
-		//		fprintf(stderr, "         -----------Error muxing packet\n");
-		//		break;
-		//	}
-		//	av_free_packet(&pkt);
-		//}
-		
 		AVStream* in_stream, * out_stream;
 		int curStId = 0;
 		
