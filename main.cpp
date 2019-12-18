@@ -42,8 +42,12 @@ int main()
 	int inputsNum = 1;
 	//char* inputs[] = { "/home/kelinlang/workspace/testFiles/E1.mp4"};
 	char* inputs[] = { "/home/kelinlang/workspace/testFiles/E1h265.mp4"};
-	char* output = "rtmp://192.168.2.162:1935/live/test";
-	char* outFormat = "flv";
+	//char* output = "rtmp://192.168.2.162:1935/live/test";
+	//char* outFormat = "flv";
+
+
+	char* output = "rtsp://192.168.2.162:5555/live/test";
+	char* outFormat = "rtsp";
 
 	testRemuxing(inputsNum,inputs,output, outFormat);
 	printf("hello from FFmpegDemo  finish!\n");
