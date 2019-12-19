@@ -4,7 +4,8 @@ extern "C" {
 //#include "libavutil/timestamp.h"
 //#include "libavformat/avformat.h"
 #include "VideoTransCode.h"
-#include "FFmpegRemuxing.h"
+//#include "FFmpegRemuxing.h"
+#include "FFmpegRemuxing3.3.h"
 }
 
 
@@ -40,16 +41,20 @@ int main()
 	output = "udp://192.168.2.34:1234?pkt_size=1316";*/
 
 	int inputsNum = 1;
-	//char* inputs[] = { "/home/kelinlang/workspace/testFiles/E1.mp4"};
-	char* inputs[] = { "/home/kelinlang/workspace/testFiles/E1h265.mp4"};
-	//char* output = "rtmp://192.168.2.162:1935/live/test";
+	char* inputs[] = { "/home/kelinlang/workspace/testFiles/E1.mp4"};
+	//char* inputs[] = { "/home/kelinlang/workspace/testFiles/E1h265.mp4"};
+	char* output = "rtmp://192.168.2.199:1935/live/test";
+	char* outFormat = "flv";
+
+
+	/*char* output = "rtsp://192.168.2.162:5555/live/test";
+	char* outFormat = "rtsp";*/
+
+	//char* output = "/home/kelinlang/workspace/testFiles/E1h265.flv";
 	//char* outFormat = "flv";
 
-
-	char* output = "rtsp://192.168.2.162:5555/live/test";
-	char* outFormat = "rtsp";
-
-	testRemuxing(inputsNum,inputs,output, outFormat);
+	//testRemuxing(inputsNum,inputs,output, outFormat);
+	testRemuxing3(inputsNum,inputs,output, outFormat);
 	printf("hello from FFmpegDemo  finish!\n");
 
     return 0;

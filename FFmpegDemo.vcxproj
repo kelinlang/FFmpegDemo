@@ -88,7 +88,7 @@
   </PropertyGroup>
   <ItemGroup>
     <ClCompile Include="ffmpeg.c" />
-    <ClCompile Include="FFmpegRemuxing.c" />
+    <ClCompile Include="FFmpegRemuxing3.3.c" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Manager.cpp" />
     <ClCompile Include="Test.cpp" />
@@ -97,7 +97,7 @@
   <ItemGroup>
     <ClInclude Include="config.h" />
     <ClInclude Include="ffmpeg.h" />
-    <ClInclude Include="FFmpegRemuxing.h" />
+    <ClInclude Include="FFmpegRemuxing3.3.h" />
     <ClInclude Include="Manager.h" />
     <ClInclude Include="Test.h" />
     <ClInclude Include="VideoTransCode.h" />
