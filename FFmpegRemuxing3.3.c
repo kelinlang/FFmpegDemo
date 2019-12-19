@@ -1,4 +1,4 @@
-#include "FFmpegRemuxing.h"
+#include "FFmpegRemuxing3.3.h"
 
 
 //static void* input_thread(void* arg)
@@ -313,6 +313,7 @@ static int openOutputFile(RemuxingContext* remuxingContext, OutputFile* outputfi
 		AVDictionary* options = NULL;
 		av_dict_set(&options, "protocol_whitelist", "file,udp,rtp,rtmp,rtsp,tcp", 0);
 		ret = avio_open2(&fc->pb, fileName, AVIO_FLAG_WRITE, NULL, &options);
+		//ret = avio_open(&fc->pb, fileName, AVIO_FLAG_WRITE);
 		//ret = avio_open(&fc->pb, fileName, AVIO_FLAG_WRITE);
 		if (ret < 0)
 		{

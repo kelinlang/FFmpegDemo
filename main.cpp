@@ -41,14 +41,14 @@ int main()
 	output = "udp://192.168.2.34:1234?pkt_size=1316";*/
 
 	int inputsNum = 1;
-	char* inputs[] = { "/home/kelinlang/workspace/testFiles/E1.mp4"};
-	//char* inputs[] = { "/home/kelinlang/workspace/testFiles/E1h265.mp4"};
+	//char* inputs[] = { "/home/kelinlang/workspace/testFiles/E1.mp4"};
+	char* inputs[] = { "/home/kelinlang/workspace/testFiles/1080P.h265"};
 	char* output = "rtmp://192.168.2.199:1935/live/test";
 	char* outFormat = "flv";
 
 
-	/*char* output = "rtsp://192.168.2.162:5555/live/test";
-	char* outFormat = "rtsp";*/
+	//char* output = "rtsp://192.168.2.199:5555/live/test";
+	//char* outFormat = "rtsp";
 
 	//char* output = "/home/kelinlang/workspace/testFiles/E1h265.flv";
 	//char* outFormat = "flv";
