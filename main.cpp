@@ -38,17 +38,17 @@ int main()
 	char* outFormat = "flv";
 
 	//测试rtsp推h265视频流
-	output = "rtsp://192.168.2.162:5555/live/test";
-	outFormat = "rtsp";
+	/*output = "rtsp://192.168.2.162:5555/live/test";
+	outFormat = "rtsp";*/
 
 	//测试生成ts文件和udp推ts流
-	output = "udp://192.168.2.175:1234?pkt_size=1316";
-	output = "/home/kelinlang/workspace/testFiles/E1h265_file_1.ts";
-	outFormat = "mpegts";
+	//output = "udp://192.168.2.175:1234?pkt_size=1316";
+	//output = "/home/kelinlang/workspace/testFiles/E1h265_file_1.ts";
+	//outFormat = "mpegts";
 
 	//测试ts切片
-	output = "/home/kelinlang/workspace/testFiles/E1h265_hls_code_test.m3u8";
-	outFormat = "hls";
+	/*output = "/home/kelinlang/workspace/testFiles/E1h265_hls_code_test.m3u8";
+	outFormat = "hls";*/
 
 	//测试生成h265格式flv文件
 	//char* output = "/home/kelinlang/workspace/testFiles/E1h265.flv";
