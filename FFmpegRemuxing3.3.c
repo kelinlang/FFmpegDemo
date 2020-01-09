@@ -1,115 +1,5 @@
 #include "FFmpegRemuxing3.3.h"
 
-
-//static void* input_thread(void* arg)
-//{
-//	InputFile* f = arg;
-//	unsigned flags = f->non_blocking ? AV_THREAD_MESSAGE_NONBLOCK : 0;
-//	int ret = 0;
-//
-//	while (1) {
-//		AVPacket pkt;
-//		ret = av_read_frame(f->formatContext, &pkt);
-//
-//		if (ret == AVERROR(EAGAIN)) {
-//			av_usleep(10000);
-//			continue;
-//		}
-//		if (ret < 0) {
-//			av_thread_message_queue_set_err_recv(f->in_thread_queue, ret);
-//			break;
-//		}
-//		ret = av_thread_message_queue_send(f->in_thread_queue, &pkt, flags);
-//		if (flags && ret == AVERROR(EAGAIN)) {
-//			flags = 0;
-//			ret = av_thread_message_queue_send(f->in_thread_queue, &pkt, flags);
-//			av_log(f->formatContext, AV_LOG_WARNING,
-//				"Thread message queue blocking; consider raising the "
-//				"thread_queue_size option (current value: %d)\n",
-//				f->thread_queue_size);
-//		}
-//		if (ret < 0) {
-//			if (ret != AVERROR_EOF)
-//				av_log(f->formatContext, AV_LOG_ERROR,
-//					"Unable to send packet to main thread: %s\n",
-//					av_err2str(ret));
-//			av_packet_unref(&pkt);
-//			av_thread_message_queue_set_err_recv(f->in_thread_queue, ret);
-//			break;
-//		}
-//	}
-//
-//	return NULL;
-//}
-//
-//static void free_input_thread(int i,RemuxingContext* remuxingContext)
-//{
-//	InputFile* f = remuxingContext->inputFiles[i];
-//	AVPacket pkt;
-//
-//	if (!f || !f->in_thread_queue)
-//		return;
-//	av_thread_message_queue_set_err_send(f->in_thread_queue, AVERROR_EOF);
-//	while (av_thread_message_queue_recv(f->in_thread_queue, &pkt, 0) >= 0)
-//		av_packet_unref(&pkt);
-//
-//	pthread_join(f->thread, NULL);
-//	f->joined = 1;
-//	av_thread_message_queue_free(&f->in_thread_queue);
-//}
-//
-//static void free_input_threads(RemuxingContext* remuxingContext)
-//{
-//	int i;
-//
-//	for (i = 0; i < remuxingContext->inputFiles[i]; i++)
-//		free_input_thread(i, remuxingContext);
-//}
-//
-//static int init_input_thread(int i, RemuxingContext* remuxingContext)
-//{
-//	int ret;
-//	InputFile* f = remuxingContext->inputFiles[i];
-//
-//	if (remuxingContext->nbInputFiles == 1)
-//		return 0;
-//
-//	if (f->formatContext->pb ? !f->formatContext->pb->seekable :
-//		strcmp(f->formatContext->iformat->name, "lavfi"))
-//		f->non_blocking = 1;
-//	ret = av_thread_message_queue_alloc(&f->in_thread_queue,
-//		f->thread_queue_size, sizeof(AVPacket));
-//	if (ret < 0)
-//		return ret;
-//
-//	if ((ret = pthread_create(&f->thread, NULL, input_thread, f))) {
-//		av_log(NULL, AV_LOG_ERROR, "pthread_create failed: %s. Try to increase `ulimit -v` or decrease `ulimit -s`.\n", strerror(ret));
-//		av_thread_message_queue_free(&f->in_thread_queue);
-//		return AVERROR(ret);
-//	}
-//
-//	return 0;
-//}
-//
-//static int init_input_threads(RemuxingContext* remuxingContext)
-//{
-//	int i, ret;
-//
-//	for (i = 0; i < remuxingContext->nbInputFiles; i++) {
-//		ret = init_input_thread(i, remuxingContext);
-//		if (ret < 0)
-//			return ret;
-//	}
-//	return 0;
-//}
-//
-//static int get_input_packet_mt(InputFile* f, AVPacket* pkt)
-//{
-//	return av_thread_message_queue_recv(f->in_thread_queue, pkt,
-//		f->non_blocking ?
-//		AV_THREAD_MESSAGE_NONBLOCK : 0);
-//}
-
 #define GROW_ARRAY(array, nb_elems)\
     array = grow_array(array, sizeof(*array), &nb_elems, nb_elems + 1)
 
@@ -291,7 +181,7 @@ static int openOutputFile(RemuxingContext* remuxingContext, OutputFile* outputfi
 	}
 
 	curStId = 0;
-	if (!strcmp(format, "mpegts")) {
+	if (!strcmp(format, "mpegts") || !strcmp(format, "hls")) {
 		for (int i = 0; i < remuxingContext->nbInputFiles;i++) {//节目信息放在创建流之后，还没弄清楚缘由
 			AVProgram* program = av_new_program(fc, i + 1);
 			//av_dict_set(&program->metadata, "title", inputFile->fileName, 0);
@@ -440,7 +330,8 @@ void testRemuxing3(int numInputFile, char** inputFileName, char* outputFileName,
 			av_free_packet(&pkt);
 
 		}
-		av_usleep(10000);//延迟10ms，要不然一下推完流，播放端缓存不了那么多，会做处理
+
+		//av_usleep(10000);//延迟10ms，要不然一下推完流，播放端缓存不了那么多，会做处理
 
 	}
 	printf("    readNum : %d\n", readNum);
