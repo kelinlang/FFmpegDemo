@@ -91,6 +91,7 @@
     <ClCompile Include="FFmpegRemuxing.c" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Manager.cpp" />
+    <ClCompile Include="media_format.cpp" />
     <ClCompile Include="Test.cpp" />
     <ClCompile Include="VideoTransCode.c" />
   </ItemGroup>
@@ -99,6 +100,7 @@
     <ClInclude Include="ffmpeg.h" />
     <ClInclude Include="FFmpegRemuxing.h" />
     <ClInclude Include="Manager.h" />
+    <ClInclude Include="media_format.h" />
     <ClInclude Include="Test.h" />
     <ClInclude Include="VideoTransCode.h" />
   </ItemGroup>
